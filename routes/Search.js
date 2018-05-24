@@ -7,25 +7,24 @@ import {
   StatusBar,
   SafeAreaView,
   Button,
-  isAndroid,
-  Image
+  isAndroid
 } from 'react-native';
 import { Icon } from 'react-native-elements'
-class HomeScreen extends React.Component {
+class SearchScreen extends React.Component {
   static navigationOptions = {
   tabBarIcon: ({ tintColor }) => (
-    <Icon name='home' type='feather' />
+    <Icon name='search' type='feather' />
   ),
 };
   render() {
     return (
       <View style={[styles.container, { backgroundColor: '#6a51ae' }]}>
-        <Text style={styles.title}>Home Screen</Text>
+        <Text style={styles.title}>Home2 Screen</Text>
       </View>
     );
   }
 }
-export default HomeScreen
+export default SearchScreen
 const styles = StyleSheet.create({
   container: {
     flex:1,
