@@ -19,7 +19,7 @@ class SearchScreen extends React.Component {
   render() {
     return (
       <View style={[styles.container, { backgroundColor: '#6a51ae' }]}>
-        <Text style={styles.title}>Home2 Screen</Text>
+        <Text style={styles.title}>Search Screen</Text>
       </View>
     );
   }

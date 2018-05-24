@@ -19,7 +19,7 @@ class UserScreen extends React.Component {
   render() {
     return (
       <View style={[styles.container, { backgroundColor: '#6a51ae' }]}>
-        <Text style={styles.title}>Home2 Screen</Text>
+        <Text style={styles.title}>User Screen</Text>
       </View>
     );
   }
