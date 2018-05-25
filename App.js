@@ -9,6 +9,7 @@ import {
   isAndroid
 } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+
 import HomeScreen from './routes/Home';
 import SearchScreen from './routes/Search';
 import StoresScreen from './routes/Stores';
@@ -22,9 +23,10 @@ export default createBottomTabNavigator(
     search: { screen: SearchScreen },
     stores: { screen: StoresScreen },
     user: { screen: UserScreen },
-  }, {
-  tabBarOptions: {
-    showLabel: false
+  },
+  {
+    tabBarOptions: {
+      showLabel: false
+    }
   }
-}
 );
