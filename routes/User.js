@@ -18,8 +18,22 @@ class UserScreen extends React.Component {
 };
   render() {
     return (
-      <View style={[styles.container, { backgroundColor: '#6a51ae' }]}>
-        <Text style={styles.title}>User Screen</Text>
+      <View style={{flex:1}}>
+        <View style={styles.container}>
+          <Text style={styles.name}>Firstname Lastname</Text>
+          <View style={styles.list}>
+            <Text style={styles.text}>Text</Text>
+          </View>
+          <View style={styles.list}>
+            <Text style={styles.text}>Text</Text>
+          </View>
+          <View style={styles.list}>
+            <Text style={styles.text}>Text</Text>
+          </View>
+          <View style={styles.list}>
+            <Text style={styles.text}>Text</Text>
+          </View>
+        </View>
       </View>
     );
   }
@@ -27,10 +41,24 @@ class UserScreen extends React.Component {
 export default UserScreen
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    marginTop:20,
+    padding:10
   },
-  title: {
-    marginTop:250,
-    textAlign:'center',
+  name:{
+    backgroundColor:"#f2f",
+    height:70,
+    padding: 30,
+    marginBottom:10,
+  },
+  text:{
+    color:"#fff",
+  },
+  list: {
+    width:'100%',
+    backgroundColor:"#000",
+    height:60,
+    borderWidth:1,
+    borderColor:"#fff",
+    padding:20
   },
 });
