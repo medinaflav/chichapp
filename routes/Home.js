@@ -12,7 +12,13 @@ import {
   Button,
   isAndroid
 } from 'react-native';
+import { Icon } from 'react-native-elements'
 class HomeScreen extends React.Component {
+  static navigationOptions = {
+  tabBarIcon: ({ tintColor }) => (
+    <Icon name='home' type='feather' />
+  ),
+};
   render() {
     return (
       <View style={[styles.container, { backgroundColor: '#6a51ae' }]}>

@@ -3,54 +3,30 @@ import {
   StyleSheet,
   Text,
   View,
-  TabBarIOS,
   StatusBar,
   SafeAreaView,
   Button,
   isAndroid
 } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import HomeScreen from './routes/Home';
+import SearchScreen from './routes/Search';
+import StoresScreen from './routes/Stores';
+import UserScreen from './routes/User';
 
 console.disableYellowBox = true;
 
-const RootStack = createStackNavigator(
+export default createBottomTabNavigator(
   {
     home: { screen: HomeScreen },
+    search: { screen: SearchScreen },
+    stores: { screen: StoresScreen },
+    user: { screen: UserScreen },
   },
   {
-    headerMode: 'none',
+    tabBarOptions: {
+      showLabel: false
+    }
   }
 );
-
-export default class App extends React.Component {
-    render() {
-        return (
-          <View style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-              <RootStack />
-            </View>
-            <View>
-                <TabBarIOS>
-                  <TabBarIOS.Item systemIcon="bookmarks">
-                    <View>
-                      <Text>TAB</Text>
-                    </View>
-                  </TabBarIOS.Item>
-                  <TabBarIOS.Item systemIcon="bookmarks">
-                    <View>
-                      <Text>TAB</Text>
-                    </View>
-                  </TabBarIOS.Item>
-                  <TabBarIOS.Item systemIcon="bookmarks">
-                    <View>
-                      <Text>TAB</Text>
-                    </View>
-                  </TabBarIOS.Item>
-                </TabBarIOS>
-              </View>
-            </View>
-        )
-    }
-}
