@@ -18,7 +18,7 @@ class HomeScreen extends React.Component {
       <View style={[styles.container, { backgroundColor: '#6a51ae' }]}>
         <Image
           style={styles.stretch}
-          source={require('../img/gouki.jpg')}
+          source={require('../img/chichApp.jpg')}
         />
         <Text style={styles.title}>Login</Text>
         <TextInput
