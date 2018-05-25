@@ -14,7 +14,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import { Icon } from 'react-native-elements'
-const colors = {blue:"#133242"};
+import { COLORS } from '../constants/index';
 
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -34,14 +34,14 @@ class LoginScreen extends React.Component {
         <TextInput style={[styles.input,{marginTop:30}]}
           onChangeText={(text) => this.setState({text})}
           value={this.state.email}
-          placeholder={"email"}
-          placeholderTextColor={colors.blue}
+          placeholder={"username"}
+          placeholderTextColor={COLORS.BLUE}
           />
         <TextInput style={[styles.input,{marginTop:10}]}
           onChangeText={(text) => this.setState({text})}
           value={this.state.password}
           placeholder={"password"}
-          placeholderTextColor={colors.blue}
+          placeholderTextColor={COLORS.BLUE}
           secureTextEntry={true}
           />
 
@@ -54,16 +54,16 @@ class LoginScreen extends React.Component {
           <Text style={styles.textButton}> Sign In </Text>
         </TouchableOpacity>
         <View style={{flexDirection: 'row',}}>
-          <View style={{borderTopColor:colors.blue,borderTopWidth: 1,width:"35%",marginTop:10}}/>
+          <View style={{borderTopColor:COLORS.BLUE,borderTopWidth: 1,width:"35%",marginTop:10}}/>
           <Text style={{paddingRight:5,paddingLeft:5,fontSize:15}} >or</Text>
-          <View style={{borderTopColor:colors.blue,borderTopWidth: 1,width:"35%",marginTop:10}}/>
+          <View style={{borderTopColor:COLORS.BLUE,borderTopWidth: 1,width:"35%",marginTop:10}}/>
         </View>
         <TouchableOpacity onPress={this._onPressButton} style={styles.button}>
           <Text style={styles.textButton}> Sign in with Facebook </Text>
         </TouchableOpacity>
         <View style={{flexDirection: 'row',position:'absolute',bottom:0,marginBottom:50,backgroundColor:'red',width:'90%'}}>
-          <Text style={{color:colors.blue,position:'absolute',left:0}} onPress={this._onPressButton}>Forgot password ?</Text>
-          <Text style={{color:colors.blue,position:'absolute',right:0}} onPress={this._onPressButton}>New here ? Sign up</Text>
+          <TouchableOpacity style={{color:COLORS.BLUE,position:'absolute',left:0}} onPress={this._onPressButton}><Text>Forgot password ?</Text></TouchableOpacity>
+          <TouchableOpacity style={{color:COLORS.BLUE,position:'absolute',right:0}} onPress={this._onPressButton}><Text>New here ? Sign up</Text></TouchableOpacity>
         </View>
       </View>
     );
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   input:{
     height: 50,
-    borderBottomColor:colors.blue,
+    borderBottomColor:COLORS.BLUE,
     borderBottomWidth: 1,
     width:"80%",
     paddingLeft:5,
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop:10,
     marginBottom:10,
-    backgroundColor:colors.blue,
+    backgroundColor:COLORS.BLUE,
     width:"80%",
     height:55
   },

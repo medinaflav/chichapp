@@ -4,18 +4,25 @@ import {
   Text,
   TextInput,
   View,
+  ScrollView,
   Image,
   TouchableOpacity,
   TabBarIOS,
   StatusBar,
   SafeAreaView,
   Button,
-  isAndroid
+  isAndroid,
+  Dimensions
 } from 'react-native';
 import { Icon } from 'react-native-elements'
+import { COLORS } from '../constants/index';
+
+const {height, width} = Dimensions.get('window');
 
 
 class LoginScreen extends React.Component {
+
+
   static navigationOptions = {
   tabBarIcon: ({ tintColor }) => (
     <Icon name='home' type='feather' />
@@ -23,7 +30,42 @@ class LoginScreen extends React.Component {
 };
   render() {
     return (
-      <View style={[styles.container, { backgroundColor: '#fff' }]}>
+      <View style={{flex:1,backgroundColor:"#fff"}}>
+        <View style={styles.container}>
+          <View style={styles.searchSection}>
+            <TextInput style={styles.input} style={{height: 40,paddingRight:"15%",borderWidth: 0,margin:10,paddingLeft:10,fontSize:20}}
+              value={"Efreitech Villejuif, 94800"}/>
+            <Icon style={styles.searchIcon} name='navigation' type='feather' size={20}/>
+          </View>
+          <ScrollView style={styles.items}>
+            <View style={{flexDirection: 'column',alignItems:'center'}}>
+              <TouchableOpacity style={styles.item}>
+              <Text>Filter</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.item}>
+              <Text>Filter</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.item}>
+              <Text>Filter</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.item}>
+              <Text>Filter</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.item}>
+                <Text>Filter</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.item}>
+                <Text>Filter</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.item}>
+                <Text>Filter</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.item}>
+                <Text>Filter</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
       </View>
     );
   }
@@ -33,38 +75,24 @@ export default LoginScreen
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    color:"#fff",
-    alignItems:"center"
+    marginTop:20,
+    width:width,
   },
-  title: {
-    marginTop:10,
-    textAlign:'center',
+  searchSection: {
+      flexDirection: 'row',
+      paddingTop: 20,
+      paddingLeft: 20,
+      paddingRight: 20,
+      borderBottomWidth:1,
+      borderBottomColor:"#E6ECEF"
   },
-  input:{
-    height: 40,
-    borderBottomColor: '#133242',
-    borderBottomWidth: 1,
-    width:"80%",
-    color:"#fff",
-    paddingLeft:5,
-    paddingBottom:25,
-    paddingTop:25
+  items:{
+    paddingTop:20,
   },
-  stretch: {
-    resizeMode:"contain",
-    marginTop:40,
-    width: 150,
-    height: 150,
-  },
-  button: {
-    alignItems: 'center',
-    padding: 10,
-    marginTop:10,
+  item:{
     marginBottom:10,
-    backgroundColor:"#133242",
-    width:"80%",
+    height:130,
+    width:width - 30,
+    borderWidth:1
   },
-  textButton:{
-    color:"#fff"
-  }
 });
