@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
+import LoginScreen from './routes/Login';
 import HomeScreen from './routes/Home';
 import SearchScreen from './routes/Search';
 import StoresScreen from './routes/Stores';
@@ -19,6 +20,7 @@ console.disableYellowBox = true;
 
 export default createBottomTabNavigator(
   {
+    login: { screen: LoginScreen },
     home: { screen: HomeScreen },
     search: { screen: SearchScreen },
     stores: { screen: StoresScreen },
