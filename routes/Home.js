@@ -10,8 +10,7 @@ import {
   StatusBar,
   SafeAreaView,
   Button,
-  isAndroid,
-  Image
+  isAndroid
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 class HomeScreen extends React.Component {
