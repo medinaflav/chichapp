@@ -10,7 +10,8 @@ import {
   StatusBar,
   SafeAreaView,
   Button,
-  isAndroid
+  isAndroid,
+  AsyncStorage
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 const colors = {blue:"#133242"};
@@ -22,9 +23,6 @@ class LoginScreen extends React.Component {
   }
 
   static navigationOptions = {
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name='home' type='feather' />
-  ),
   tabBarVisible: false
 };
   render() {
@@ -49,7 +47,9 @@ class LoginScreen extends React.Component {
 
         <TouchableOpacity onPress={this._onPressButton} style={[styles.button,{marginTop:60}]}
         onPress={() =>
-          navigate('home')
+          AsyncStorage.setItem("logIn", "true").then(() => {
+            navigate('home')
+          })
         }>
           <Text style={styles.textButton}> Sign In </Text>
         </TouchableOpacity>

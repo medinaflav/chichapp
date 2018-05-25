@@ -6,9 +6,10 @@ import {
   StatusBar,
   SafeAreaView,
   Button,
-  isAndroid
+  isAndroid,
+  AsyncStorage
 } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator,TabNavigator,StackNavigator } from 'react-navigation';
 
 import LoginScreen from './routes/Login';
 import HomeScreen from './routes/Home';
@@ -18,17 +19,41 @@ import UserScreen from './routes/User';
 
 console.disableYellowBox = true;
 
-export default createBottomTabNavigator(
-  {
-    login: { screen: LoginScreen },
-    home: { screen: HomeScreen },
-    search: { screen: SearchScreen },
-    stores: { screen: StoresScreen },
-    user: { screen: UserScreen },
-  },
-  {
-    tabBarOptions: {
-      showLabel: false
-    }
+const TabScreenNavigator = TabNavigator({
+      home: { screen: HomeScreen },
+      search: { screen: SearchScreen },
+      stores: { screen: StoresScreen },
+      user: { screen: UserScreen },
+
+},
+{
+   tabBarPosition: 'bottom',
+   tabBarOptions: {
+    showIcon: true,
+    showLabel: false,
   }
+}
 );
+
+const MainScreenNavigator = StackNavigator({
+
+  ScreenNotOnTabbar: { screen: LoginScreen },
+  Tab: { screen: TabScreenNavigator },
+
+},
+{
+    headerMode: 'none',
+    navigationOptions: {
+        headerVisible: false,
+        gesturesEnabled: false,
+    }
+}
+);
+
+export default class App extends React.Component {
+    render() {
+        return (
+            <MainScreenNavigator />
+        )
+    }
+}
