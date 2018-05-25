@@ -18,7 +18,7 @@ class HomeScreen extends React.Component {
       <View style={[styles.container, { backgroundColor: '#6a51ae' }]}>
         <Image
           style={styles.stretch}
-          source={require('./gouki.jpg')}
+          source={require('../img/gouki.jpg')}
         />
         <Text style={styles.title}>Login</Text>
         <TextInput
@@ -31,9 +31,29 @@ class HomeScreen extends React.Component {
           onChangeText={(text) => this.setState({input: text})}
           secureTextEntry={true}
           />
-          <TouchableOpacity onPress={this._onPressButton}>
-          <Text style={styles.title}> Sign In </Text>
+          <TouchableOpacity
+          onPress={this._onPressButton}
+          style={styles.button}>
+          <Text> Sign In </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+          onPress={this._onPressButton}
+          style={styles.button}>
+          <Text> Se connecter avec Google </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+          onPress={this._onPressButton}
+          style={styles.button}>
+          <Text> Se connecter avec Facebook </Text>
+          </TouchableOpacity>
+          <Text style={{color: 'blue'}}
+          onPress={this._onPressButton}>
+          You forgot your password ?
+          </Text>
+          <Text style={{color: 'blue'}}
+          onPress={this._onPressButton}>
+          New here ? Come and sign up
+          </Text>
       </View>
     );
   }
@@ -50,8 +70,10 @@ const styles = StyleSheet.create({
   stretch: {
     width: 500,
     height: 200,
+  },
+  button: {
     alignItems: 'center',
-    justifyContent:'center'
-
+    backgroundColor: '#6a51ae',
+    padding: 10
   }
 });
