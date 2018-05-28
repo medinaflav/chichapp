@@ -9,43 +9,59 @@ import {
   isAndroid,
   AsyncStorage
 } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator,TabNavigator,StackNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import LoginScreen from './routes/Login';
 import HomeScreen from './routes/Home';
+import ChichaScreen from './routes/Chicha';
 import SearchScreen from './routes/Search';
 import StoresScreen from './routes/Stores';
 import UserScreen from './routes/User';
 
 console.disableYellowBox = true;
 
-const TabScreenNavigator = TabNavigator({
+const TabScreenNavigator = createBottomTabNavigator({
       home: { screen: HomeScreen },
       search: { screen: SearchScreen },
       stores: { screen: StoresScreen },
       user: { screen: UserScreen },
-
 },
 {
+   initialRouteName: 'home',
    tabBarPosition: 'bottom',
    tabBarOptions: {
-    showIcon: true,
+    showIcon: false,
     showLabel: false,
+    style: {
+      backgroundColor: '#fff',
+    }
   }
 }
 );
+const NotOnTabScreenNavigator = createStackNavigator({
+  login : {screen: LoginScreen},
+  chicha : {screen: ChichaScreen}
+},
+{
+    headerMode: 'none',
+    navigationOptions:{
+      headerVisible:false,
+      gesturesEnabled:false
+    }
+}
+)
 
-const MainScreenNavigator = StackNavigator({
+const MainScreenNavigator = createStackNavigator({
 
-  ScreenNotOnTabbar: { screen: LoginScreen },
+  NotOnTab: { screen: NotOnTabScreenNavigator},
   Tab: { screen: TabScreenNavigator },
 
 },
 {
     headerMode: 'none',
-    navigationOptions: {
-        headerVisible: false,
-        gesturesEnabled: false,
+    navigationOptions:{
+      headerVisible:false,
+      gesturesEnabled:true
     }
 }
 );
@@ -53,7 +69,7 @@ const MainScreenNavigator = StackNavigator({
 export default class App extends React.Component {
     render() {
         return (
-            <MainScreenNavigator />
+            <MainScreenNavigator/>
         )
     }
 }

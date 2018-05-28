@@ -1,0 +1,24 @@
+{
+  "chicha":[
+    {
+      "name": "La Hookah",
+      "adress": "92 Avenue de Paris, 94800 Villejuif",
+      "statut": "Ouvert",
+    },
+    {
+      "name": "Medway",
+      "adress": "141 Avenue de Paris, 94800 Villejuif",
+      "statut": "Fermé",
+    },
+    {
+      "name": "La Hookah",
+      "adress": "92 Avenue de Paris, 94800 Villejuif",
+      "statut": "Ouvert",
+    },
+    {
+      "name": "Medway",
+      "adress": "141 Avenue de Paris, 94800 Villejuif",
+      "statut": "Fermé",
+    }
+  ]
+}

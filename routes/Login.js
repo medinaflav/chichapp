@@ -48,7 +48,7 @@ class LoginScreen extends React.Component {
         <TouchableOpacity onPress={this._onPressButton} style={[styles.button,{marginTop:60}]}
         onPress={() =>
           AsyncStorage.setItem("logIn", "true").then(() => {
-            navigate('home')
+            navigate('home');
           })
         }>
           <Text style={styles.textButton}> Sign In </Text>

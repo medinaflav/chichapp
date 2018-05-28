@@ -16,11 +16,12 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { COLORS } from '../constants/index';
+var chichas = require('../db/chichas');
 
 const {height, width} = Dimensions.get('window');
 
 
-class LoginScreen extends React.Component {
+class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -66,39 +67,34 @@ class LoginScreen extends React.Component {
   )
 };
   render() {
+    console.log("------------- chichas ---------------");
+    console.log(chichas);
+    console.log("----------------------------");
+    const chicha = chichas.chicha.map((item, index) => {
+      return(
+        <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
+          <View style={styles.image}></View>
+          <View style={styles.caption}>
+            <View>
+                <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
+                <Text style={[{color:'#6c757d'},styles.captionText]}>{item.adress}</Text>
+            </View>
+              <Text style={styles.captionText}>{item.statut}</Text>
+          </View>
+        </TouchableOpacity>
+      )
+    })
     return (
       <View style={{flex:1,backgroundColor:"#fff"}}>
         <View style={styles.container}>
           <View style={styles.searchSection}>
-            <TextInput style={styles.input} style={{height: 40,paddingRight:"15%",borderWidth: 0,margin:10,paddingLeft:10,fontSize:15}}
+            <TextInput style={{fontSize:17,width:"80%"}}
               value={this.state.adress}/>
-            <Icon style={styles.searchIcon} name='navigation' type='feather' size={20}/>
+            <Icon style={styles.positionIcon} name='navigation' type='feather' size={20}/>
           </View>
           <ScrollView style={styles.items}>
             <View style={{flexDirection: 'column',alignItems:'center'}}>
-              <TouchableOpacity style={styles.item}>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.item}>
-              <Text>Filter</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.item}>
-              <Text>Filter</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.item}>
-              <Text>Filter</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.item}>
-                <Text>Filter</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.item}>
-                <Text>Filter</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.item}>
-                <Text>Filter</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.item}>
-                <Text>Filter</Text>
-              </TouchableOpacity>
+            {chicha}
             </View>
           </ScrollView>
         </View>
@@ -106,29 +102,47 @@ class LoginScreen extends React.Component {
     );
   }
 }
-export default LoginScreen
+export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    marginTop:20,
+    marginTop:30,
     width:width,
   },
   searchSection: {
       flexDirection: 'row',
-      paddingTop: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
       paddingLeft: 20,
       paddingRight: 20,
       borderBottomWidth:1,
-      borderBottomColor:"#E6ECEF"
+      borderBottomColor:"#E6ECEF",
+      height: 60,
+  },
+  positionIcon: {
+    marginRight:15,
+    backgroundColor:'blue'
   },
   items:{
     paddingTop:20,
   },
   item:{
-    marginBottom:10,
-    height:130,
+    marginBottom:40,
+    height:250,
     width:width - 30,
-    borderWidth:1
   },
+  image:{
+    width:"100%",
+    height:200,
+    backgroundColor:'blue',
+  },
+  caption:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  captionText:{
+    paddingTop:10,
+    fontSize:15
+  }
 });
