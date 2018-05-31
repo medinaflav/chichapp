@@ -43,7 +43,7 @@ class HomeScreen extends React.Component {
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
         console.log("----------------------------");
-          fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyBt_Ge6IrFP3a7YnElPGqM84xw9BBekl0Q`)
+          fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyDvYr9Qd2TRoYMff2bUFUbGti5wi1IR1gA`)
           .then(res => res.json())
           .then(res => {
             var adress = res.results[0].address_components;
@@ -88,7 +88,7 @@ class HomeScreen extends React.Component {
       let adresse = item.adress.replace(', France','');
       return(
         <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
-        <Image style={styles.image} source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.ref_photo}&key=AIzaSyBt_Ge6IrFP3a7YnElPGqM84xw9BBekl0Q`}}/>
+        <Image style={styles.image} source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.ref_photo}&key=AIzaSyDvYr9Qd2TRoYMff2bUFUbGti5wi1IR1gA`}}/>
           <View style={styles.caption}>
             <View>
                 <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
