@@ -17,7 +17,6 @@ import {
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import { COLORS } from '../constants/index';
-var chichas = require('../db/chichas');
 
 const {height, width} = Dimensions.get('window');
 
@@ -27,6 +26,7 @@ class HomeScreen extends React.Component {
     super(props);
 
     this.state = {
+      chichas: [],
       latitude: null,
       longitude: null,
       adress: null,
@@ -48,8 +48,8 @@ class HomeScreen extends React.Component {
           .then(res => {
             var adress = res.results[0].address_components;
             var fullAdress = `${adress[0].long_name} ${adress[1].long_name}, ${adress[2].long_name} ${adress[adress.length - 1].long_name}`
+            console.log("-------------- adresse --------------");
             console.log(fullAdress);
-            console.log("----------------------------");
             this.setState({ adress: fullAdress })
             return;
           })
@@ -62,13 +62,13 @@ class HomeScreen extends React.Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
-    }
-    else {
-      console.log("----------------------------");
-      console.log("----------------------------");
-      console.log("----------------------------");
-      console.log("no");
-    }
+    fetch(`http://10.3.1.13:4242/api/hookahs`)
+    .then(res => res.json())
+    .then(res => {
+      console.log("------------- res ---------------");
+      this.setState({ chichas : res.hookahs })
+      return;
+    })
   }
 
   static navigationOptions = {
@@ -77,14 +77,15 @@ class HomeScreen extends React.Component {
   )
 };
   render() {
-    const chicha = chichas.chicha.map((item, index) => {
+    const chicha = this.state.chichas.map((item, index) => {
+      let adresse = item.adress.replace(', France','');
       return(
         <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
-        <Image style={styles.image} source={require('../public/img/chicha.jpg')}/>
+        <Image style={styles.image} source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.ref_photo}&key=AIzaSyBt_Ge6IrFP3a7YnElPGqM84xw9BBekl0Q`}}/>
           <View style={styles.caption}>
             <View>
                 <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
-                <Text style={[{color:'#6c757d'},styles.captionText]}>{item.adress}</Text>
+                <Text style={[{color:'#6c757d'},styles.captionText]}>{adresse}</Text>
             </View>
               <Text style={styles.captionText}>{item.statut}</Text>
           </View>
@@ -101,7 +102,7 @@ class HomeScreen extends React.Component {
           </View>
           <ScrollView style={styles.items}>
             <View style={{flexDirection: 'column',alignItems:'center'}}>
-            {chicha}
+              {chicha}
             </View>
           </ScrollView>
         </View>
