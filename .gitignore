@@ -1,7 +1,7 @@
 
 # Created by https://www.gitignore.io/api/reactnative
 
-.expo/packager-info.json
+.expo/
 
 ### ReactNative ###
 # React Native Stack Base
