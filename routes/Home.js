@@ -4,97 +4,145 @@ import {
   Text,
   TextInput,
   View,
+  ScrollView,
   Image,
   TouchableOpacity,
   TabBarIOS,
   StatusBar,
   SafeAreaView,
   Button,
-  isAndroid
+  isAndroid,
+  Dimensions
 } from 'react-native';
 import { Icon } from 'react-native-elements'
+import { COLORS } from '../constants/index';
+var chichas = require('../db/chichas');
+
+const {height, width} = Dimensions.get('window');
 
 
-class LoginScreen extends React.Component {
+class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      latitude: null,
+      longitude: null,
+      adress: null,
+      error: null,
+    };
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log("----------------------------");
+        console.log(position.coords.latitude);
+        console.log(position.coords.longitude);
+        console.log("----------------------------");
+          fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyBt_Ge6IrFP3a7YnElPGqM84xw9BBekl0Q`)
+          .then(res => res.json())
+          .then(res => {
+            var adress = res.results[0].address_components;
+            var fullAdress = `${adress[0].long_name} ${adress[1].long_name}, ${adress[2].long_name} ${adress[adress.length - 1].long_name}`
+            console.log(fullAdress);
+            console.log("----------------------------");
+            this.setState({ adress: fullAdress })
+            return;
+          })
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+  }
+
   static navigationOptions = {
   tabBarIcon: ({ tintColor }) => (
     <Icon name='home' type='feather' />
-  ),
-  tabBarVisible: false
+  )
 };
   render() {
+    console.log("------------- chichas ---------------");
+    console.log(chichas);
+    console.log("----------------------------");
+    const chicha = chichas.chicha.map((item, index) => {
+      return(
+        <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
+          <View style={styles.image}></View>
+          <View style={styles.caption}>
+            <View>
+                <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
+                <Text style={[{color:'#6c757d'},styles.captionText]}>{item.adress}</Text>
+            </View>
+              <Text style={styles.captionText}>{item.statut}</Text>
+          </View>
+        </TouchableOpacity>
+      )
+    })
     return (
-      <View style={[styles.container, { backgroundColor: '#fff' }]}>
-        <Image style={styles.stretch} source={require('../public/img/chichapp2.png')}/>
-
-        <TextInput style={[styles.input,{marginTop:30}]}
-          onChangeText={(text) => this.setState({input: text})}
-          placeholder={"email"}
-          placeholderTextColor="133242"
-          />
-        <TextInput style={[styles.input,{marginTop:5}]}
-          onChangeText={(text) => this.setState({input: text})}
-          placeholder={"password"}
-          placeholderTextColor="133242"
-          secureTextEntry={true}
-          />
-
-        <TouchableOpacity onPress={this._onPressButton} style={[styles.button,{marginTop:30}]}>
-          <Text style={styles.textButton}> Sign In </Text>
-        </TouchableOpacity>
-        <View style={{flexDirection: 'row',}}>
-          <View style={{borderTopColor: '#133242',borderTopWidth: 1,width:"35%",marginTop:10}}/>
-          <Text style={{paddingRight:5,paddingLeft:5}} >or</Text>
-          <View style={{borderTopColor: '#133242',borderTopWidth: 1,width:"35%",marginTop:10}}/>
-        </View>
-        <TouchableOpacity onPress={this._onPressButton} style={styles.button}>
-          <Text style={styles.textButton}> Sign in with Facebook </Text>
-        </TouchableOpacity>
-        <View style={{flexDirection: 'row',marginTop:50}}>
-          <Text style={{color: 'blue',float:'right'}} onPress={this._onPressButton}>Forgot password ?</Text>
-          <Text style={{color: 'blue'}} onPress={this._onPressButton}>New here ? Sign up</Text>
+      <View style={{flex:1,backgroundColor:"#fff"}}>
+        <View style={styles.container}>
+          <View style={styles.searchSection}>
+            <TextInput style={{fontSize:17,width:"80%"}}
+              value={this.state.adress}/>
+            <Icon style={styles.positionIcon} name='navigation' type='feather' size={20}/>
+          </View>
+          <ScrollView style={styles.items}>
+            <View style={{flexDirection: 'column',alignItems:'center'}}>
+            {chicha}
+            </View>
+          </ScrollView>
         </View>
       </View>
     );
   }
 }
-export default LoginScreen
+export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    color:"#fff",
-    alignItems:"center"
+    marginTop:30,
+    width:width,
   },
-  title: {
-    marginTop:10,
-    textAlign:'center',
+  searchSection: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingLeft: 20,
+      paddingRight: 20,
+      borderBottomWidth:1,
+      borderBottomColor:"#E6ECEF",
+      height: 60,
   },
-  input:{
-    height: 40,
-    borderBottomColor: '#133242',
-    borderBottomWidth: 1,
-    width:"80%",
-    color:"#fff",
-    paddingLeft:5,
-    paddingBottom:25,
-    paddingTop:25
+  positionIcon: {
+    marginRight:15,
+    backgroundColor:'blue'
   },
-  stretch: {
-    resizeMode:"contain",
-    marginTop:40,
-    width: 150,
-    height: 150,
+  items:{
+    paddingTop:20,
   },
-  button: {
-    alignItems: 'center',
-    padding: 10,
-    marginTop:10,
-    marginBottom:10,
-    backgroundColor:"#133242",
-    width:"80%",
+  item:{
+    marginBottom:40,
+    height:250,
+    width:width - 30,
   },
-  textButton:{
-    color:"#fff"
+  image:{
+    width:"100%",
+    height:200,
+    backgroundColor:'blue',
+  },
+  caption:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  captionText:{
+    paddingTop:10,
+    fontSize:15
   }
 });
