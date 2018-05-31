@@ -7,10 +7,14 @@ import {
   StatusBar,
   SafeAreaView,
   Button,
-  isAndroid
+  isAndroid,
+  TouchableOpacity
 } from 'react-native';
 import { Icon } from 'react-native-elements'
+import { COLORS } from '../constants/index';
+
 class UserScreen extends React.Component {
+
   static navigationOptions = {
   tabBarIcon: ({ tintColor }) => (
     <Icon name='user' type='feather'/>
@@ -19,20 +23,13 @@ class UserScreen extends React.Component {
   render() {
     return (
       <View style={{flex:1}}>
-        <View style={styles.container}>
-          <Text style={styles.name}>Firstname Lastname</Text>
-          <View style={styles.list}>
-            <Text style={styles.text}>Text</Text>
+      <View style={styles.container}>
+        <View style={styles.userContainer}>
+          <Text style={styles.user}>Firstname Lastname</Text>
           </View>
-          <View style={styles.list}>
-            <Text style={styles.text}>Text</Text>
-          </View>
-          <View style={styles.list}>
-            <Text style={styles.text}>Text</Text>
-          </View>
-          <View style={styles.list}>
-            <Text style={styles.text}>Text</Text>
-          </View>
+          <TouchableOpacity style={styles.list}>
+            <Text style={styles.text}>Se déconnecter</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -41,24 +38,22 @@ class UserScreen extends React.Component {
 export default UserScreen
 const styles = StyleSheet.create({
   container: {
-    marginTop:20,
-    padding:10
+    marginTop:50,
   },
-  name:{
-    backgroundColor:"#f2f",
-    height:70,
+  userContainer:{
+    borderBottomWidth:0.2,
+    borderColor:COLORS.BLUE
+  },
+  user:{
+    height:50,
     padding: 30,
     marginBottom:10,
-  },
-  text:{
-    color:"#fff",
+    fontSize:15,
   },
   list: {
+    alignItems:'center',
     width:'100%',
-    backgroundColor:"#000",
     height:60,
-    borderWidth:1,
-    borderColor:"#fff",
     padding:20
   },
 });

@@ -8,10 +8,12 @@ import {
   SafeAreaView,
   Button,
   isAndroid,
-  TextInput
+  TextInput,
+  TouchableOpacity
 } from 'react-native';
 
 import { Icon } from 'react-native-elements'
+var filters = require('../db/filters');
 
 class SearchScreen extends React.Component {
   constructor(props) {
@@ -24,6 +26,13 @@ class SearchScreen extends React.Component {
   ),
 };
   render() {
+    const filter = filters.filter.map((item, index) => {
+      return(
+        <TouchableOpacity style={styles.filter}>
+              <Text style={styles.textFilter}>{item.name}</Text>
+        </TouchableOpacity>
+      )
+    })
     return (
       <View style={{flex:1}}>
         <View style={styles.container}>
@@ -35,34 +44,7 @@ class SearchScreen extends React.Component {
               />
           </View>
           <View style={styles.filters}>
-            <View style={{flexDirection: 'column'}}>
-              <View style={styles.filter}>
-              <Text style={styles.textFilter}>Filter</Text>
-              </View>
-              <View style={styles.filter}>
-              <Text style={styles.textFilter}>Filter</Text>
-              </View>
-              <View style={styles.filter}>
-              <Text style={styles.textFilter}>Filter</Text>
-              </View>
-              <View style={styles.filter}>
-              <Text style={styles.textFilter}>Filter</Text>
-              </View>
-            </View>
-            <View style={{flexDirection: 'column'}}>
-              <View style={[styles.filter,styles.marginfilter]}>
-                <Text style={styles.textFilter}>Filter</Text>
-              </View>
-              <View style={[styles.filter,styles.marginfilter]}>
-                <Text style={styles.textFilter}>Filter</Text>
-              </View>
-              <View style={[styles.filter,styles.marginfilter]}>
-                <Text style={styles.textFilter}>Filter</Text>
-              </View>
-              <View style={[styles.filter,styles.marginfilter]}>
-                <Text style={styles.textFilter}>Filter</Text>
-              </View>
-            </View>
+              {filter}
           </View>
         </View>
       </View>
@@ -84,17 +66,16 @@ const styles = StyleSheet.create({
     paddingLeft:10,
     paddingRight:10,
     flexDirection: 'row',
+    flexWrap:'wrap',
   },
   filter:{
     height:130,
     width:170,
     marginBottom:10,
+    marginRight:10,
     borderWidth:1,
     alignItems:'center',
     justifyContent:'center',
-  },
-  marginfilter:{
-    marginLeft:10,
   },
   textFilter:{
     fontSize:15,

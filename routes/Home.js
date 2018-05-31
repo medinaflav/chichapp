@@ -67,9 +67,6 @@ class HomeScreen extends React.Component {
   )
 };
   render() {
-    console.log("------------- chichas ---------------");
-    console.log(chichas);
-    console.log("----------------------------");
     const chicha = chichas.chicha.map((item, index) => {
       return(
         <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>

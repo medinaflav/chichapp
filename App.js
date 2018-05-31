@@ -47,7 +47,7 @@ const NotOnTabScreenNavigator = createStackNavigator({
     headerMode: 'none',
     navigationOptions:{
       headerVisible:false,
-      gesturesEnabled:false
+      gesturesEnabled:true
     }
 }
 )

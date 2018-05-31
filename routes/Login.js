@@ -11,7 +11,8 @@ import {
   SafeAreaView,
   Button,
   isAndroid,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { COLORS } from '../constants/index';
@@ -19,26 +20,39 @@ import { COLORS } from '../constants/index';
 class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { email: '',password:'' };
+    this.state = { username: '',password:'' };
   }
 
   static navigationOptions = {
   tabBarVisible: false
 };
-  render() {
+
+onLogin(){
+  const { username, password } = this.state;
+  if(username && password){
+    console.log("------------ username -----------");
+    console.log(username);
+    console.log("------------ password -----------");
+    console.log(password);
+  }
+  else {
+    console.log('no');
+  }
+}
+
+render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={[styles.container, { backgroundColor: '#fff' }]}>
         <Image style={styles.stretch} source={require('../public/img/chichapp2.png')}/>
-
         <TextInput style={[styles.input,{marginTop:30}]}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.email}
+          value={this.state.username}
+          onChangeText={(username) => this.setState({username})}
           placeholder={"username"}
           placeholderTextColor={COLORS.BLUE}
           />
         <TextInput style={[styles.input,{marginTop:10}]}
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={(password) => this.setState({password})}
           value={this.state.password}
           placeholder={"password"}
           placeholderTextColor={COLORS.BLUE}
@@ -46,11 +60,7 @@ class LoginScreen extends React.Component {
           />
 
         <TouchableOpacity onPress={this._onPressButton} style={[styles.button,{marginTop:60}]}
-        onPress={() =>
-          AsyncStorage.setItem("logIn", "true").then(() => {
-            navigate('home');
-          })
-        }>
+        onPress={this.onLogin.bind(this)}>
           <Text style={styles.textButton}> Sign In </Text>
         </TouchableOpacity>
         <View style={{flexDirection: 'row',}}>

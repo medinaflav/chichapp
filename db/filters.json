@@ -1,0 +1,16 @@
+{
+  "filter":[
+    {
+      "name": "Boite de nuit",
+    },
+    {
+      "name": "Restaurant",
+    },
+    {
+      "name": "Match de foot",
+    },
+    {
+      "name": "Chill",
+    }
+  ]
+}
