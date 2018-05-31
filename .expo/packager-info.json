@@ -1,1 +1,8 @@
-{}
+{
+  "expoServerPort": 19004,
+  "packagerPort": 19005,
+  "packagerPid": 14632,
+  "expoServerNgrokUrl": "https://7g-6d6.abdoulaye.chichapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.7g-6d6.abdoulaye.chichapp.exp.direct",
+  "ngrokPid": 14647
+}
