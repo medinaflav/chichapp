@@ -15,7 +15,7 @@ import {
   Alert
 } from 'react-native';
 import { Icon } from 'react-native-elements'
-import { COLORS } from '../constants/index';
+import { COLORS, CONFIG } from '../constants/index';
 
 class SignupScreen extends React.Component {
   constructor(props) {

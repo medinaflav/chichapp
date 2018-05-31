@@ -15,7 +15,7 @@ import {
   Alert
 } from 'react-native';
 import { Icon } from 'react-native-elements'
-import { COLORS } from '../constants/index';
+import { COLORS, CONFIG } from '../constants/index';
 import { connect } from 'react-redux'
 
 class LoginScreen extends React.Component {

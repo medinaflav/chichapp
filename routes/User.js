@@ -11,7 +11,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Icon } from 'react-native-elements'
-import { COLORS } from '../constants/index';
+import { COLORS, CONFIG } from '../constants/index';
 
 class UserScreen extends React.Component {
 

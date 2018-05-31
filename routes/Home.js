@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements'
-import { COLORS } from '../constants/index';
+import { COLORS, CONFIG } from '../constants/index';
 
 const {height, width} = Dimensions.get('window');
 
@@ -43,12 +43,13 @@ class HomeScreen extends React.Component {
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
         console.log("----------------------------");
-          fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyDvYr9Qd2TRoYMff2bUFUbGti5wi1IR1gA`)
+          fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.APIKEY}`)
           .then(res => res.json())
           .then(res => {
             var adress = res.results[0].address_components;
             var fullAdress = `${adress[0].long_name} ${adress[1].long_name}, ${adress[2].long_name} ${adress[adress.length - 1].long_name}`
             console.log("-------------- adresse --------------");
+            console.log(res);
             console.log(fullAdress);
             this.setState({ adress: fullAdress })
             return;
@@ -87,8 +88,8 @@ class HomeScreen extends React.Component {
     const chicha = this.state.chichas.map((item, index) => {
       let adresse = item.adress.replace(', France','');
       return(
-        <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
-        <Image style={styles.image} source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.ref_photo}&key=AIzaSyDvYr9Qd2TRoYMff2bUFUbGti5wi1IR1gA`}}/>
+        <TouchableOpacity key={item.id} style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
+        <Image style={styles.image} source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.ref_photo}&key=${CONFIG.APIKEY}`}}/>
           <View style={styles.caption}>
             <View>
                 <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
