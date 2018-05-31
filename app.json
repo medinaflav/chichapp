@@ -1,6 +1,5 @@
 {
   "expo": {
     "sdkVersion": "27.0.0",
-    "splash": {"image": "./public/img/chichapp.png","backgroundColor": "#133242","resizeMode":"stretch"}
   }
 }

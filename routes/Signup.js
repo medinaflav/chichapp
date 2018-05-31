@@ -51,6 +51,8 @@ onSignup(){
     });
     const content = await reponse.json();
     console.log(content);
+    this.state.username = '';
+    this.state.password = '';
     this.props.navigation.navigate('login')
 })();
   }
