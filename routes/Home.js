@@ -44,7 +44,7 @@ class HomeScreen extends React.Component {
         console.log(position.coords.longitude);
         console.log("----------------------------");
         console.log("------------ CALL ----------------");
-          let call =`${CONFIG.API_LOCATION}${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.APIKEY}`;
+          let call =`${CONFIG.API_LOCATION}${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.API_KEY}`;
           console.log(call);
         console.log("------------ CALL ----------------");
           fetch(call)
@@ -67,7 +67,7 @@ class HomeScreen extends React.Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
-    fetch(`https://chichappbackend.herokuapp.com/api/hookahs`)
+    fetch(`${CONFIG.API_BACK}/hookahs`)
     .then(res => res.json())
     .then(res => {
       console.log("------------- res ---------------");
@@ -93,7 +93,7 @@ class HomeScreen extends React.Component {
       let adresse = item.adress.replace(', France','');
       return(
         <TouchableOpacity key={item.id} style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
-        <Image style={styles.image} source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.ref_photo}&key=${CONFIG.APIKEY}`}}/>
+        <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${item.ref_photo}&key=${CONFIG.API_KEY}`}}/>
           <View style={styles.caption}>
             <View>
                 <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>

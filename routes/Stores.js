@@ -40,7 +40,7 @@ class StoresScreen extends React.Component {
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
         console.log("----------------------------");
-          let call = `${CONFIG.API_LOCATION}${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.APIKEY}`;
+          let call = `${CONFIG.API_LOCATION}${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.API_KEY}`;
           fetch(call)
           .then(res => res.json())
           .then(res => {
@@ -56,7 +56,7 @@ class StoresScreen extends React.Component {
           longitude: position.coords.longitude,
           error: null,
         });
-        fetch(`https://chichappbackend.herokuapp.com/api/stores`)
+        fetch(`${CONFIG.API_BACK}/stores`)
         .then(res => res.json())
         .then(res => {
           console.log("------------- res ---------------");
@@ -78,8 +78,8 @@ render() {
   const store = this.state.stores.map((item, index) => {
     let adresse = item.adress.replace(', France','');
     return(
-      <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("Magasin",{store:item})}>
-      <Image style={styles.image} source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.ref_photo}&key=${CONFIG.APIKEY}`}}/>
+      <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
+      <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${item.ref_photo}&key=${CONFIG.API_KEY}`}}/>
         <View style={styles.caption}>
           <View>
               <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>

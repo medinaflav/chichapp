@@ -32,7 +32,7 @@ onLogin(){
   const { username, password } = this.state;
   if(username !== '' && password !== '' ){
     (async () => {
-    const reponse = await fetch('https://chichappbackend.herokuapp.com/api/auth/login', {
+    const reponse = await fetch(`${CONFIG.API_BACK}/auth/login`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
