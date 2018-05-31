@@ -26,7 +26,7 @@ class ChichaScreen extends React.Component {
     return (
       <View style={{flex:1,backgroundColor:"#fff"}}>
           <ScrollView style={styles.container}>
-            <View style={styles.image}></View>
+            <Image style={styles.image} source={require('../public/img/chicha.jpg')}/>
             <View style={styles.item}>
               <Text>{params.chicha.name}</Text>
               <Text>{params.chicha.adress}</Text>

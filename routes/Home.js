@@ -70,7 +70,7 @@ class HomeScreen extends React.Component {
     const chicha = chichas.chicha.map((item, index) => {
       return(
         <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
-          <View style={styles.image}></View>
+        <Image style={styles.image} source={require('../public/img/chicha.jpg')}/>
           <View style={styles.caption}>
             <View>
                 <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
