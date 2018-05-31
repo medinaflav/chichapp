@@ -20,7 +20,8 @@ import UserScreen from './routes/User';
 
 console.disableYellowBox = true;
 
-const TabScreenNavigator = createBottomTabNavigator({
+const TabScreenNavigator = createBottomTabNavigator(
+{
       home: { screen: HomeScreen },
       search: { screen: SearchScreen },
       stores: { screen: StoresScreen },
@@ -30,7 +31,7 @@ const TabScreenNavigator = createBottomTabNavigator({
    initialRouteName: 'home',
    tabBarPosition: 'bottom',
    tabBarOptions: {
-    showIcon: false,
+    showIcon: true,
     showLabel: false,
     style: {
       backgroundColor: '#fff',
