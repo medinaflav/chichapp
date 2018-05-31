@@ -14,6 +14,7 @@ import {
   isAndroid,
   Dimensions
 } from 'react-native';
+import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import { COLORS } from '../constants/index';
 var chichas = require('../db/chichas');
@@ -32,8 +33,10 @@ class HomeScreen extends React.Component {
       error: null,
     };
   }
-
   componentDidMount() {
+    console.log("----------------- is LOGGED --------------");
+    console.log(this.props.isLogged);
+    if (this.props.isLogged) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         console.log("----------------------------");
@@ -59,6 +62,13 @@ class HomeScreen extends React.Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
+    }
+    else {
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("no");
+    }
   }
 
   static navigationOptions = {
@@ -99,7 +109,14 @@ class HomeScreen extends React.Component {
     );
   }
 }
-export default HomeScreen
+
+function mapStateToProps(state) {
+  return {
+    isLogged: state.isLogged
+  }
+}
+
+export default connect(mapStateToProps)(HomeScreen)
 
 const styles = StyleSheet.create({
   container: {

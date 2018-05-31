@@ -16,23 +16,27 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { COLORS } from '../constants/index';
-import { connect } from 'react-redux'
 
-class LoginScreen extends React.Component {
+class SignupScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: '',password:'' };
+    this.state = {
+      username: '',
+      email: '',
+      password:'',
+      confirmPassword:''
+    };
   }
 
   static navigationOptions = {
   tabBarVisible: false
 };
 
-onLogin(){
-  const { username, password } = this.state;
-  if(username !== '' && password !== '' ){
+onSignup(){
+  const { username, email, password, confirmPassword } = this.state;
+  if(username !== '' && email !== '' && password !== '' && confirmPassword !== ''){
     (async () => {
-    const reponse = await fetch('http://10.3.1.13:4242/api/auth/login', {
+    const reponse = await fetch('http://10.3.1.13:4242/api/auth/register', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -40,17 +44,13 @@ onLogin(){
       },
       body: JSON.stringify({
         'nickname' : username,
-         password,
+        email,
+        password,
+        'password_confirmation' : confirmPassword
       }),
     });
     const content = await reponse.json();
-    console.log("----------- TOKEN ---------");
-    console.log(content.token);
-    console.log("----------- TOKEN ---------");
-    AsyncStorage.setItem("isLogged", content.token ).then(() => {
-      this.props.dispatch({ type: 'NEW_TOKEN', payload: { isLogged: content.token } })
-      this.props.navigation.navigate('home')
-    })
+    console.log(content);
 })();
   }
   else {
@@ -69,6 +69,12 @@ render() {
           placeholder={"username"}
           placeholderTextColor={COLORS.BLUE}
           />
+          <TextInput style={[styles.input,{marginTop:10}]}
+            value={this.state.email}
+            onChangeText={(email) => this.setState({email})}
+            placeholder={"email"}
+            placeholderTextColor={COLORS.BLUE}
+            />
         <TextInput style={[styles.input,{marginTop:10}]}
           onChangeText={(password) => this.setState({password})}
           value={this.state.password}
@@ -76,34 +82,23 @@ render() {
           placeholderTextColor={COLORS.BLUE}
           secureTextEntry={true}
           />
+          <TextInput style={[styles.input,{marginTop:10}]}
+            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+            value={this.state.confirmPassword}
+            placeholder={"confirm password"}
+            placeholderTextColor={COLORS.BLUE}
+            secureTextEntry={true}
+            />
 
         <TouchableOpacity onPress={this._onPressButton} style={[styles.button,{marginTop:60}]}
-        onPress={this.onLogin.bind(this)}>
-          <Text style={styles.textButton}> Sign In </Text>
+        onPress={this.onSignup.bind(this)}>
+          <Text style={styles.textButton}> Sign Up </Text>
         </TouchableOpacity>
-        <View style={{flexDirection: 'row',}}>
-          <View style={{borderTopColor:COLORS.BLUE,borderTopWidth: 1,width:"35%",marginTop:10}}/>
-          <Text style={{paddingRight:5,paddingLeft:5,fontSize:15}} >or</Text>
-          <View style={{borderTopColor:COLORS.BLUE,borderTopWidth: 1,width:"35%",marginTop:10}}/>
-        </View>
-        <TouchableOpacity onPress={this._onPressButton} style={styles.button}>
-          <Text style={styles.textButton}> Sign in with Facebook </Text>
-        </TouchableOpacity>
-        <View style={{flexDirection: 'row',position:'absolute',bottom:0,marginBottom:50,backgroundColor:'red',width:'90%'}}>
-          <TouchableOpacity style={{color:COLORS.BLUE,position:'absolute',left:0}} onPress={this._onPressButton}><Text>Forgot password ?</Text></TouchableOpacity>
-          <TouchableOpacity style={{color:COLORS.BLUE,position:'absolute',right:0}} onPress={() => navigate('signup')}><Text>New here ? Sign up</Text></TouchableOpacity>
-        </View>
       </View>
     );
   }
 }
-function mapStateToProps(state) {
-  return {
-    isLogged: state.isLogged
-  }
-}
-
-export default connect(mapStateToProps)(LoginScreen)
+export default SignupScreen
 
 const styles = StyleSheet.create({
   container: {
