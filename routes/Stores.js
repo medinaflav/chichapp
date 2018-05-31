@@ -25,6 +25,7 @@ class StoresScreen extends React.Component {
     super(props);
 
     this.state = {
+      stores: [],
       latitude: null,
       longitude: null,
       adress: null,
@@ -54,6 +55,13 @@ class StoresScreen extends React.Component {
           longitude: position.coords.longitude,
           error: null,
         });
+        fetch(`http://10.3.1.13:4242/api/stores`)
+        .then(res => res.json())
+        .then(res => {
+          console.log("------------- res ---------------");
+          this.setState({stores : res.stores })
+          return;
+        })
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -65,43 +73,39 @@ class StoresScreen extends React.Component {
     <Icon name='shopping-cart' type='feather'/>
   )
 };
-  render() {
-    return (
-      <View style={{flex:1,backgroundColor:"#fff"}}>
-        <View style={styles.container}>
-          <View style={styles.searchSection}>
-            <TextInput style={{fontSize:17,width:"80%"}}
-              value={this.state.adress}/>
-            <Icon style={styles.positionIcon} name='navigation' type='feather' size={20}/>
+render() {
+  const store = this.state.stores.map((item, index) => {
+    let adresse = item.adress.replace(', France','');
+    return(
+      <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("Magasin",{store:item})}>
+      <Image style={styles.image} source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.ref_photo}&key=AIzaSyBt_Ge6IrFP3a7YnElPGqM84xw9BBekl0Q`}}/>
+        <View style={styles.caption}>
+          <View>
+              <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
+              <Text style={[{color:'#6c757d'},styles.captionText]}>{adresse}</Text>
           </View>
-          <ScrollView style={styles.items}>
-            <View style={{flexDirection: 'column',alignItems:'center'}}>
-              <TouchableOpacity style={styles.item}>
-                <View style={styles.image}></View>
-                <View style={styles.caption}>
-                  <View>
-                      <Text style={[{fontWeight:'bold'},styles.captionText]}>Le Najirisse</Text>
-                      <Text style={[{color:'#6c757d'},styles.captionText]}>10 Rue des Coquelicots</Text>
-                  </View>
-                  <Text style={[{color:'green'},styles.captionText]}>Ouvert</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.item}>
-                <View style={styles.image}></View>
-                <View style={styles.caption}>
-                  <View>
-                      <Text style={[{fontWeight:'bold'},styles.captionText]}>Le Najirisse</Text>
-                      <Text style={[{color:'#6c757d'},styles.captionText]}>10 Rue des Coquelicots</Text>
-                  </View>
-                  <Text style={[{color:'green'},styles.captionText]}>Ouvert</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
+            <Text style={styles.captionText}>{item.statut}</Text>
         </View>
+      </TouchableOpacity>
+    )
+  })
+  return (
+    <View style={{flex:1,backgroundColor:"#fff"}}>
+      <View style={styles.container}>
+        <View style={styles.searchSection}>
+          <TextInput style={{fontSize:17,width:"80%"}}
+            value={this.state.adress}/>
+          <Icon style={styles.positionIcon} name='navigation' type='feather' size={20}/>
+        </View>
+        <ScrollView style={styles.items}>
+          <View style={{flexDirection: 'column',alignItems:'center'}}>
+            {store}
+          </View>
+        </ScrollView>
       </View>
-    );
-  }
+    </View>
+  );
+}
 }
 export default StoresScreen
 
