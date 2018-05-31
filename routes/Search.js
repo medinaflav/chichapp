@@ -12,7 +12,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 var filters = require('../db/filters');
 
 class SearchScreen extends React.Component {
@@ -34,7 +34,7 @@ class SearchScreen extends React.Component {
       )
     })
     return (
-      <View style={{flex:1}}>
+      <View style={{flex:1,backgroundColor:"#fff"}}>
         <View style={styles.container}>
           <View style={styles.searchSection}>
             <Icon style={styles.searchIcon} name='search' type='feather' size={20}/>
@@ -64,9 +64,9 @@ const styles = StyleSheet.create({
   },
   filters:{
     paddingLeft:10,
-    paddingRight:10,
     flexDirection: 'row',
     flexWrap:'wrap',
+    justifyContent:'flex-start',
   },
   filter:{
     height:130,

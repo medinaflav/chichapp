@@ -34,9 +34,7 @@ function reducer(state = initial_state, action) {
     case 'NEW_TOKEN':
       return Object.assign({}, state,{ isLogged: action.payload.isLogged })
     case 'CLEAR_TOKEN':
-      return Object.assign({}, state,{
-        isLogged: ''
-      })
+      return Object.assign({}, state,{ isLogged: '' })
     default:
       return state
   }

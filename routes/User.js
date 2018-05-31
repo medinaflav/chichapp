@@ -8,18 +8,26 @@ import {
   SafeAreaView,
   Button,
   isAndroid,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { COLORS, CONFIG } from '../constants/index';
-
+import { connect } from 'react-redux';
 class UserScreen extends React.Component {
 
   static navigationOptions = {
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name='user' type='feather'/>
-  ),
-};
+    tabBarIcon: ({ tintColor }) => (
+      <Icon name='user' type='feather'/>
+    ),
+  };
+
+  onLogout(){
+    AsyncStorage.removeItem("isLogged");
+    this.props.dispatch({ type: 'CLEAR_TOKEN'})
+    this.props.navigation.navigate('login')
+  }
+
   render() {
     return (
       <View style={{flex:1}}>
@@ -27,7 +35,7 @@ class UserScreen extends React.Component {
         <View style={styles.userContainer}>
           <Text style={styles.user}>Firstname Lastname</Text>
           </View>
-          <TouchableOpacity style={styles.list}>
+          <TouchableOpacity onPress={() => this.onLogout()} style={styles.list}>
             <Text style={styles.text}>Se déconnecter</Text>
           </TouchableOpacity>
         </View>
@@ -35,7 +43,15 @@ class UserScreen extends React.Component {
     );
   }
 }
-export default UserScreen
+
+function mapStateToProps(state) {
+  return {
+    isLogged: state.isLogged
+  }
+}
+
+export default connect(mapStateToProps)(UserScreen)
+
 const styles = StyleSheet.create({
   container: {
     marginTop:50,

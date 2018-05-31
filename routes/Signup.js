@@ -14,7 +14,7 @@ import {
   AsyncStorage,
   Alert
 } from 'react-native';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { COLORS, CONFIG } from '../constants/index';
 
 class SignupScreen extends React.Component {

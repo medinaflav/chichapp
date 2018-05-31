@@ -14,7 +14,7 @@ import {
   isAndroid,
   Dimensions
 } from 'react-native';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { COLORS, CONFIG } from '../constants/index';
 
 const {height, width} = Dimensions.get('window');

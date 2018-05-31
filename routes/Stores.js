@@ -14,7 +14,7 @@ import {
   isAndroid,
   Dimensions
 } from 'react-native';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { COLORS, CONFIG } from '../constants/index';
 
 const {height, width} = Dimensions.get('window');
@@ -40,7 +40,8 @@ class StoresScreen extends React.Component {
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
         console.log("----------------------------");
-          fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.APIKEY}`)
+          let call = `${CONFIG.API_LOCATION}${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.APIKEY}`;
+          fetch(call)
           .then(res => res.json())
           .then(res => {
             var adress = res.results[0].address_components;
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
   },
   positionIcon: {
     marginRight:15,
-    backgroundColor:'blue'
+    backgroundColor:COLORS.BLUE
   },
   items:{
     paddingTop:20,

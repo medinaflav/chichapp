@@ -15,7 +15,7 @@ import {
   Dimensions
 } from 'react-native';
 import { connect } from 'react-redux'
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { COLORS, CONFIG } from '../constants/index';
 
 const {height, width} = Dimensions.get('window');
@@ -43,7 +43,11 @@ class HomeScreen extends React.Component {
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
         console.log("----------------------------");
-          fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.APIKEY}`)
+        console.log("------------ CALL ----------------");
+          let call =`${CONFIG.API_LOCATION}${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.APIKEY}`;
+          console.log(call);
+        console.log("------------ CALL ----------------");
+          fetch(call)
           .then(res => res.json())
           .then(res => {
             var adress = res.results[0].address_components;
@@ -158,7 +162,7 @@ const styles = StyleSheet.create({
   image:{
     width:"100%",
     height:200,
-    backgroundColor:'blue',
+    backgroundColor:COLORS.BLUE,
   },
   caption:{
     flexDirection: 'row',

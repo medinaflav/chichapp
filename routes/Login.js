@@ -14,7 +14,7 @@ import {
   AsyncStorage,
   Alert
 } from 'react-native';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { COLORS, CONFIG } from '../constants/index';
 import { connect } from 'react-redux'
 
@@ -44,13 +44,20 @@ onLogin(){
       }),
     });
     const content = await reponse.json();
+    if (content.err) {
+      console.log("----------- ERROR LOGIN ---------");
+    }
+    else {
     console.log("----------- TOKEN ---------");
     console.log(content.token);
     console.log("----------- TOKEN ---------");
+    this.state.username = '';
+    this.state.password = '';
     AsyncStorage.setItem("isLogged", content.token ).then(() => {
       this.props.dispatch({ type: 'NEW_TOKEN', payload: { isLogged: content.token } })
       this.props.navigation.navigate('home')
     })
+  }
 })();
   }
   else {
