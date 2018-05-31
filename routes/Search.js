@@ -10,11 +10,13 @@ import {
   isAndroid,
   TextInput
 } from 'react-native';
+
 import { Icon } from 'react-native-elements'
+
 class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: 'Useless Placeholder' };
+    this.state = { text: 'Recherche' };
   }
   static navigationOptions = {
   tabBarIcon: ({ tintColor }) => (
@@ -35,30 +37,30 @@ class SearchScreen extends React.Component {
           <View style={styles.filters}>
             <View style={{flexDirection: 'column'}}>
               <View style={styles.filter}>
-              <Text>Filter</Text>
+              <Text style={styles.textFilter}>Filter</Text>
               </View>
               <View style={styles.filter}>
-              <Text>Filter</Text>
+              <Text style={styles.textFilter}>Filter</Text>
               </View>
               <View style={styles.filter}>
-              <Text>Filter</Text>
+              <Text style={styles.textFilter}>Filter</Text>
               </View>
               <View style={styles.filter}>
-              <Text>Filter</Text>
+              <Text style={styles.textFilter}>Filter</Text>
               </View>
             </View>
             <View style={{flexDirection: 'column'}}>
               <View style={[styles.filter,styles.marginfilter]}>
-                <Text>Filter</Text>
+                <Text style={styles.textFilter}>Filter</Text>
               </View>
               <View style={[styles.filter,styles.marginfilter]}>
-                <Text>Filter</Text>
+                <Text style={styles.textFilter}>Filter</Text>
               </View>
               <View style={[styles.filter,styles.marginfilter]}>
-                <Text>Filter</Text>
+                <Text style={styles.textFilter}>Filter</Text>
               </View>
               <View style={[styles.filter,styles.marginfilter]}>
-                <Text>Filter</Text>
+                <Text style={styles.textFilter}>Filter</Text>
               </View>
             </View>
           </View>
@@ -72,6 +74,7 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     marginTop:20,
+    backgroundColor:"#fff"
   },
   searchSection: {
       flexDirection: 'row',
@@ -86,9 +89,15 @@ const styles = StyleSheet.create({
     height:130,
     width:170,
     marginBottom:10,
-    borderWidth:1
+    borderWidth:1,
+    alignItems:'center',
+    justifyContent:'center',
   },
   marginfilter:{
     marginLeft:10,
+  },
+  textFilter:{
+    fontSize:15,
+    fontWeight:'bold'
   }
 });
