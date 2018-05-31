@@ -27,7 +27,26 @@ class UserScreen extends React.Component {
     this.props.dispatch({ type: 'CLEAR_TOKEN'})
     this.props.navigation.navigate('login')
   }
-
+  componentWillMount(){
+    try{
+    AsyncStorage.getItem('isLogged').then((result) => {
+      if (result) {
+        console.log('------a');
+        console.log(result);
+        fetch(`${CONFIG.API_BACK}/users/1`, {
+          method: "GET",
+          headers: {
+            'Authorization': 'Bearer ' + result
+          }
+        }).then(res => {
+          console.log(res);
+        })
+        }
+      })
+    }catch(error){
+      console.log(error);
+    }
+  }
   render() {
     return (
       <View style={{flex:1}}>
