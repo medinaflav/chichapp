@@ -55,7 +55,7 @@ class StoresScreen extends React.Component {
           longitude: position.coords.longitude,
           error: null,
         });
-        fetch(`http://10.3.1.13:4242/api/stores`)
+        fetch(`https://chichappbackend.herokuapp.com/api/stores`)
         .then(res => res.json())
         .then(res => {
           console.log("------------- res ---------------");

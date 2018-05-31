@@ -36,7 +36,7 @@ onSignup(){
   const { username, email, password, confirmPassword } = this.state;
   if(username !== '' && email !== '' && password !== '' && confirmPassword !== ''){
     (async () => {
-    const reponse = await fetch('http://10.3.1.13:4242/api/auth/register', {
+    const reponse = await fetch('https://chichappbackend.herokuapp.com/api/auth/register', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -51,6 +51,7 @@ onSignup(){
     });
     const content = await reponse.json();
     console.log(content);
+    this.props.navigation.navigate('login')
 })();
   }
   else {

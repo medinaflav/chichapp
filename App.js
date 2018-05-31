@@ -74,7 +74,6 @@ const TabScreenNavigator = createBottomTabNavigator(
 const NotOnTabScreenNavigator = createStackNavigator({
   login : {screen: LoginScreen},
   signup : {screen: SignupScreen},
-  chicha : {screen: ChichaScreen}
 },
 {
     headerMode: 'none',
@@ -84,11 +83,16 @@ const NotOnTabScreenNavigator = createStackNavigator({
     }
 }
 )
+const WithReturnScreenNavigator = createStackNavigator({
+  chicha : {screen: ChichaScreen}
+},
+)
 
 const MainScreenNavigator = createStackNavigator({
 
   Tab: { screen: TabScreenNavigator },
   NotOnTab: { screen: NotOnTabScreenNavigator},
+  Return: { screen: WithReturnScreenNavigator},
 
 },
 {

@@ -62,13 +62,20 @@ class HomeScreen extends React.Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
-    fetch(`http://10.3.1.13:4242/api/hookahs`)
+    fetch(`https://chichappbackend.herokuapp.com/api/hookahs`)
     .then(res => res.json())
     .then(res => {
       console.log("------------- res ---------------");
       this.setState({ chichas : res.hookahs })
       return;
     })
+    }
+    else {
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("no");
+    }
   }
 
   static navigationOptions = {

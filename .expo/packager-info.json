@@ -1,1 +1,8 @@
-{}
+{
+  "expoServerPort": 19004,
+  "packagerPort": 19005,
+  "packagerPid": 12399,
+  "expoServerNgrokUrl": "https://ir-tyd.flavz.chichapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.ir-tyd.flavz.chichapp.exp.direct",
+  "ngrokPid": 12417
+}
