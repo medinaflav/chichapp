@@ -44,6 +44,7 @@ const NotOnTabScreenNavigator = createStackNavigator({
   chicha : {screen: ChichaScreen}
 },
 {
+    initialRouteName: 'home',
     headerMode: 'none',
     navigationOptions:{
       headerVisible:false,
@@ -54,8 +55,8 @@ const NotOnTabScreenNavigator = createStackNavigator({
 
 const MainScreenNavigator = createStackNavigator({
 
-  NotOnTab: { screen: NotOnTabScreenNavigator},
   Tab: { screen: TabScreenNavigator },
+  NotOnTab: { screen: NotOnTabScreenNavigator},
 
 },
 {
