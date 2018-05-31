@@ -90,8 +90,8 @@ render() {
           <Text style={styles.textButton}> Sign in with Facebook </Text>
         </TouchableOpacity>
         <View style={{flexDirection: 'row',position:'absolute',bottom:0,marginBottom:50,backgroundColor:'red',width:'90%'}}>
-          <TouchableOpacity style={{color:COLORS.BLUE,position:'absolute',left:0}} onPress={this._onPressButton}><Text>Forgot password ?</Text></TouchableOpacity>
-          <TouchableOpacity style={{color:COLORS.BLUE,position:'absolute',right:0}} onPress={() => navigate('signup')}><Text>New here ? Sign up</Text></TouchableOpacity>
+          <TouchableOpacity style={{position:'absolute',left:0}} onPress={this._onPressButton}><Text style={{color:COLORS.BLUE}}>Forgot password ?</Text></TouchableOpacity>
+          <TouchableOpacity style={{position:'absolute',right:0}} onPress={() => navigate('signup')}><Text style={{color:COLORS.BLUE}}>New here ? Sign up</Text></TouchableOpacity>
         </View>
       </View>
     );
@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    textAlign:'center',
     padding: 20,
     marginTop:10,
     marginBottom:10,
