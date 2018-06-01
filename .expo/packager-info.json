@@ -1,8 +1,8 @@
 {
   "expoServerPort": 19000,
-  "packagerPort": 19002,
-  "packagerPid": 7258,
+  "packagerPort": 19001,
+  "packagerPid": 945,
   "expoServerNgrokUrl": "https://vz-xw3.flavz.chichapp.exp.direct",
   "packagerNgrokUrl": "https://packager.vz-xw3.flavz.chichapp.exp.direct",
-  "ngrokPid": 7275
+  "ngrokPid": 973
 }

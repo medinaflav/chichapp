@@ -31,6 +31,8 @@ class UserScreen extends React.Component {
 
   onLogout(){
     AsyncStorage.removeItem("isLogged");
+    AsyncStorage.removeItem("username");
+    this.setState({ username: '' });
     this.props.dispatch({ type: 'CLEAR_TOKEN'})
     this.props.navigation.navigate('login')
   }
