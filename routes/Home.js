@@ -89,7 +89,7 @@ class HomeScreen extends React.Component {
     const chicha = this.state.chichas.map((item, index) => {
       let adresse = item.adress.replace(', France','');
       return(
-        <TouchableOpacity key={item.id} style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
+        <TouchableOpacity key={item.id} style={styles.item}>
         <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${item.ref_photo}&key=${CONFIG.API_KEY}`}}/>
           <View style={styles.caption}>
             <View>
