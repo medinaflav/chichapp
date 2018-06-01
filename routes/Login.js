@@ -14,8 +14,8 @@ import {
   AsyncStorage,
   Alert
 } from 'react-native';
-import { Icon } from 'react-native-elements'
-import { COLORS } from '../constants/index';
+import { Icon } from 'react-native-elements';
+import { COLORS, CONFIG } from '../constants/index';
 import { connect } from 'react-redux'
 
 class LoginScreen extends React.Component {
@@ -32,7 +32,7 @@ onLogin(){
   const { username, password } = this.state;
   if(username !== '' && password !== '' ){
     (async () => {
-    const reponse = await fetch('https://chichappbackend.herokuapp.com/api/auth/login', {
+    const reponse = await fetch(`${CONFIG.API_BACK}/auth/login`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -44,13 +44,20 @@ onLogin(){
       }),
     });
     const content = await reponse.json();
+    if (content.err) {
+      console.log("----------- ERROR LOGIN ---------");
+    }
+    else {
     console.log("----------- TOKEN ---------");
     console.log(content.token);
     console.log("----------- TOKEN ---------");
+    this.state.username = '';
+    this.state.password = '';
     AsyncStorage.setItem("isLogged", content.token ).then(() => {
       this.props.dispatch({ type: 'NEW_TOKEN', payload: { isLogged: content.token } })
       this.props.navigation.navigate('home')
     })
+  }
 })();
   }
   else {
@@ -90,8 +97,8 @@ render() {
           <Text style={styles.textButton}> Sign in with Facebook </Text>
         </TouchableOpacity>
         <View style={{flexDirection: 'row',position:'absolute',bottom:0,marginBottom:50,backgroundColor:'red',width:'90%'}}>
-          <TouchableOpacity style={{color:COLORS.BLUE,position:'absolute',left:0}} onPress={this._onPressButton}><Text>Forgot password ?</Text></TouchableOpacity>
-          <TouchableOpacity style={{color:COLORS.BLUE,position:'absolute',right:0}} onPress={() => navigate('signup')}><Text>New here ? Sign up</Text></TouchableOpacity>
+          <TouchableOpacity style={{position:'absolute',left:0}} onPress={this._onPressButton}><Text style={{color:COLORS.BLUE}}>Forgot password ?</Text></TouchableOpacity>
+          <TouchableOpacity style={{position:'absolute',right:0}} onPress={() => navigate('signup')}><Text style={{color:COLORS.BLUE}}>New here ? Sign up</Text></TouchableOpacity>
         </View>
       </View>
     );
@@ -131,7 +138,6 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    textAlign:'center',
     padding: 20,
     marginTop:10,
     marginBottom:10,

@@ -14,8 +14,8 @@ import {
   isAndroid,
   Dimensions
 } from 'react-native';
-import { Icon } from 'react-native-elements'
-import { COLORS } from '../constants/index';
+import { Icon } from 'react-native-elements';
+import { COLORS, CONFIG } from '../constants/index';
 
 const {height, width} = Dimensions.get('window');
 
@@ -40,7 +40,8 @@ class StoresScreen extends React.Component {
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
         console.log("----------------------------");
-          fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyBt_Ge6IrFP3a7YnElPGqM84xw9BBekl0Q`)
+          let call = `${CONFIG.API_LOCATION}${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.API_KEY}`;
+          fetch(call)
           .then(res => res.json())
           .then(res => {
             var adress = res.results[0].address_components;
@@ -55,7 +56,7 @@ class StoresScreen extends React.Component {
           longitude: position.coords.longitude,
           error: null,
         });
-        fetch(`https://chichappbackend.herokuapp.com/api/stores`)
+        fetch(`${CONFIG.API_BACK}/stores`)
         .then(res => res.json())
         .then(res => {
           console.log("------------- res ---------------");
@@ -77,8 +78,8 @@ render() {
   const store = this.state.stores.map((item, index) => {
     let adresse = item.adress.replace(', France','');
     return(
-      <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("Magasin",{store:item})}>
-      <Image style={styles.image} source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.ref_photo}&key=AIzaSyBt_Ge6IrFP3a7YnElPGqM84xw9BBekl0Q`}}/>
+      <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
+      <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${item.ref_photo}&key=${CONFIG.API_KEY}`}}/>
         <View style={styles.caption}>
           <View>
               <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
   },
   positionIcon: {
     marginRight:15,
-    backgroundColor:'blue'
+    backgroundColor:COLORS.BLUE
   },
   items:{
     paddingTop:20,

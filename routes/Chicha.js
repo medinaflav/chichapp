@@ -14,8 +14,8 @@ import {
   isAndroid,
   Dimensions
 } from 'react-native';
-import { Icon } from 'react-native-elements'
-import { COLORS } from '../constants/index';
+import { Icon } from 'react-native-elements';
+import { COLORS, CONFIG } from '../constants/index';
 
 const {height, width} = Dimensions.get('window');
 
@@ -23,10 +23,11 @@ const {height, width} = Dimensions.get('window');
 class ChichaScreen extends React.Component {
   render() {
     const { params } = this.props.navigation.state;
+    console.log(params);
     return (
       <View style={{flex:1,backgroundColor:"#fff"}}>
           <ScrollView style={styles.container}>
-            <Image style={styles.image} source={require('../public/img/chicha.jpg')}/>
+            <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${params.chicha.ref_photo}&key=${CONFIG.API_KEY}`}}/>
             <View style={styles.item}>
               <Text>{params.chicha.name}</Text>
               <Text>{params.chicha.adress}</Text>
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   },
   positionIcon: {
     marginRight:15,
-    backgroundColor:'blue'
+    backgroundColor:COLORS.BLUE
   },
   items:{
     paddingTop:20,
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
   image:{
     width:"100%",
     height:200,
-    backgroundColor:'blue',
+    backgroundColor:COLORS.BLUE,
   },
   caption:{
     flexDirection: 'row',

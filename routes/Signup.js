@@ -14,8 +14,8 @@ import {
   AsyncStorage,
   Alert
 } from 'react-native';
-import { Icon } from 'react-native-elements'
-import { COLORS } from '../constants/index';
+import { Icon } from 'react-native-elements';
+import { COLORS, CONFIG } from '../constants/index';
 
 class SignupScreen extends React.Component {
   constructor(props) {
@@ -36,7 +36,7 @@ onSignup(){
   const { username, email, password, confirmPassword } = this.state;
   if(username !== '' && email !== '' && password !== '' && confirmPassword !== ''){
     (async () => {
-    const reponse = await fetch('https://chichappbackend.herokuapp.com/api/auth/register', {
+    const reponse = await fetch(`${CONFIG.API_BACK}/auth/register`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -51,6 +51,8 @@ onSignup(){
     });
     const content = await reponse.json();
     console.log(content);
+    this.state.username = '';
+    this.state.password = '';
     this.props.navigation.navigate('login')
 })();
   }
