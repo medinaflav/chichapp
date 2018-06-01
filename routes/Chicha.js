@@ -23,17 +23,18 @@ const {height, width} = Dimensions.get('window');
 class ChichaScreen extends React.Component {
   render() {
     const { params } = this.props.navigation.state;
-    console.log(params);
+    let item = params.chicha;
+    let adresse = item.adress.replace(', France','');
     return (
-      <View style={{flex:1,backgroundColor:"#fff"}}>
-          <ScrollView style={styles.container}>
-            <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${params.chicha.ref_photo}&key=${CONFIG.API_KEY}`}}/>
-            <View style={styles.item}>
-              <Text>{params.chicha.name}</Text>
-              <Text>{params.chicha.adress}</Text>
-              <Text>{params.chicha.statut}</Text>
-            </View>
-          </ScrollView>
+      <View style={styles.container}>
+      <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${item.ref_photo}&key=${CONFIG.API_KEY}`}}/>
+        <View style={styles.caption}>
+          <View>
+              <Text style={{fontWeight:'bold',fontSize:15}}>{item.name}</Text>
+              <Text style={[{color:'#6c757d'},styles.captionText]}>{adresse}</Text>
+          </View>
+          <Text style={{fontSize:15}}>{item.rating}</Text>
+        </View>
       </View>
     );
   }
@@ -43,8 +44,8 @@ export default ChichaScreen
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    marginTop:40,
     width:width,
+    backgroundColor:"#fff",
   },
   searchSection: {
       flexDirection: 'row',
@@ -74,6 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor:COLORS.BLUE,
   },
   caption:{
+    padding:10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

@@ -48,11 +48,12 @@ onLogin(){
       console.log("----------- ERROR LOGIN ---------");
     }
     else {
-    console.log("----------- TOKEN ---------");
+    console.log("----------- LOGIN TOKEN ---------");
     console.log(content.token);
-    console.log("----------- TOKEN ---------");
+    console.log("----------- LOGIN TOKEN ---------");
     this.state.username = '';
     this.state.password = '';
+    AsyncStorage.setItem("username", content.data.nickname);
     AsyncStorage.setItem("isLogged", content.token ).then(() => {
       this.props.dispatch({ type: 'NEW_TOKEN', payload: { isLogged: content.token } })
       this.props.navigation.navigate('home')
@@ -61,7 +62,7 @@ onLogin(){
 })();
   }
   else {
-    console.log('no');
+    console.log('Field Empty !');
   }
 }
 

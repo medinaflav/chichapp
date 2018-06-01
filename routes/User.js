@@ -15,6 +15,13 @@ import { Icon } from 'react-native-elements'
 import { COLORS, CONFIG } from '../constants/index';
 import { connect } from 'react-redux';
 class UserScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      username : '',
+    };
+  }
 
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
@@ -28,19 +35,28 @@ class UserScreen extends React.Component {
     this.props.navigation.navigate('login')
   }
   componentWillMount(){
+    // try{
+    // AsyncStorage.getItem('isLogged').then((result) => {
+    //   if (result) {
+    //     console.log('------a');
+    //     console.log(result);
+    //     fetch(`${CONFIG.API_BACK}/users/1`, {
+    //       method: "GET",
+    //       headers: {
+    //         'Authorization': 'Bearer ' + result
+    //       }
+    //     }).then(res => {
+    //       console.log(res);
+    //     })
+    //     }
+    //   })
+    // }catch(error){
+    //   console.log(error);
+    // }
     try{
-    AsyncStorage.getItem('isLogged').then((result) => {
+    AsyncStorage.getItem('username').then((result) => {
       if (result) {
-        console.log('------a');
-        console.log(result);
-        fetch(`${CONFIG.API_BACK}/users/1`, {
-          method: "GET",
-          headers: {
-            'Authorization': 'Bearer ' + result
-          }
-        }).then(res => {
-          console.log(res);
-        })
+        this.setState({ username: result });
         }
       })
     }catch(error){
@@ -52,7 +68,7 @@ class UserScreen extends React.Component {
       <View style={{flex:1}}>
       <View style={styles.container}>
         <View style={styles.userContainer}>
-          <Text style={styles.user}>Firstname Lastname</Text>
+          <Text style={styles.user}>{this.state.username}</Text>
           </View>
           <TouchableOpacity onPress={() => this.onLogout()} style={styles.list}>
             <Text style={styles.text}>Se déconnecter</Text>
@@ -84,6 +100,7 @@ const styles = StyleSheet.create({
     padding: 30,
     marginBottom:10,
     fontSize:15,
+    textAlign:'center'
   },
   list: {
     alignItems:'center',

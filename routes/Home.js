@@ -34,26 +34,23 @@ class HomeScreen extends React.Component {
     };
   }
   componentDidMount() {
-    console.log("----------------- is LOGGED --------------");
+    console.log("----------------- HOME TOKEN --------------");
     console.log(this.props.isLogged);
+    console.log("----------------- HOME TOKEN --------------");
     if (this.props.isLogged) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log("----------------------------");
+        console.log("------------ latlong----------------");
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
-        console.log("----------------------------");
-        console.log("------------ CALL ----------------");
+        console.log("-------------- latlong --------------");
           let call =`${CONFIG.API_LOCATION}${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.API_KEY}`;
-          console.log(call);
-        console.log("------------ CALL ----------------");
           fetch(call)
           .then(res => res.json())
           .then(res => {
             var adress = res.results[0].address_components;
             var fullAdress = `${adress[0].long_name} ${adress[1].long_name}, ${adress[2].long_name} ${adress[adress.length - 1].long_name}`
             console.log("-------------- adresse --------------");
-            console.log(res);
             console.log(fullAdress);
             this.setState({ adress: fullAdress })
             return;
@@ -70,23 +67,23 @@ class HomeScreen extends React.Component {
     fetch(`${CONFIG.API_BACK}/hookahs`)
     .then(res => res.json())
     .then(res => {
-      console.log("------------- res ---------------");
       this.setState({ chichas : res.hookahs })
       return;
     })
     }
     else {
-      console.log("----------------------------");
-      console.log("----------------------------");
-      console.log("----------------------------");
-      console.log("no");
+      console.log("NO LOGGED CAN'T ACESS VIEW");
     }
   }
 
   static navigationOptions = {
   tabBarIcon: ({ tintColor }) => (
     <Icon name='home' type='feather' />
-  )
+  ),
+  header: ({ goBack }) => ({
+    left: ( <Icon name={'chevron-left'} onPress={ () => { goBack() } }  /> ),
+    right: ( <Icon name={'chevron-right'} onPress={ () => { goBack() } }  /> ),
+  }),
 };
   render() {
     const chicha = this.state.chichas.map((item, index) => {
@@ -99,7 +96,9 @@ class HomeScreen extends React.Component {
                 <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
                 <Text style={[{color:'#6c757d'},styles.captionText]}>{adresse}</Text>
             </View>
-              <Text style={styles.captionText}>{item.statut}</Text>
+            <View style={{flexDirection:'row',justifyContent:'flex-end',alignItems:'center'}}>
+              <Text style={{fontSize:15}}>{item.rating}</Text>
+            </View>
           </View>
         </TouchableOpacity>
       )
