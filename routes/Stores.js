@@ -14,7 +14,9 @@ import {
   isAndroid,
   Dimensions
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux'
+import { Icon, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
+
 import { COLORS, CONFIG } from '../constants/index';
 
 const {height, width} = Dimensions.get('window');
@@ -25,90 +27,150 @@ class StoresScreen extends React.Component {
     super(props);
 
     this.state = {
-      stores: [],
+      chichas: [],
       latitude: null,
       longitude: null,
       adress: null,
+      city: null,
+      zipcode: null,
       error: null,
     };
   }
 
   componentDidMount() {
+    if (this.props.isLogged) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log("----------------------------");
+        console.log("------------ latlong----------------");
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
-        console.log("----------------------------");
-          let call = `${CONFIG.API_LOCATION}${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.API_KEY}`;
+        console.log("-------------- latlong --------------");
+          let call =`${CONFIG.API_LOCATION}${position.coords.latitude},${position.coords.longitude}&key=${CONFIG.API_KEY}`;
           fetch(call)
           .then(res => res.json())
           .then(res => {
             var adress = res.results[0].address_components;
-            var fullAdress = `${adress[0].long_name} ${adress[1].long_name}, ${adress[2].long_name} ${adress[adress.length - 1].long_name}`
+            var city = adress[2].long_name;
+            var zipcode = adress[adress.length - 1].long_name;
+            var fullAdress = `${adress[0].long_name} ${adress[1].long_name}, ${city} ${zipcode}`
+            console.log("-------------- adresse --------------");
             console.log(fullAdress);
-            console.log("----------------------------");
             this.setState({ adress: fullAdress })
+            let url = `${CONFIG.API_SEARCH}query=magasin+chicha+${city}+${zipcode}&location=${position.coords.latitude},${position.coords.longitude}&radius=10&key=${CONFIG.API_KEY}`;
+            console.log(url);
+            fetch(url)
+            .then(res => res.json())
+            .then(res => {
+              console.log(res);
+              var chicharray = [];
+              for (var i = 0; i < res.results.length; i++) {
+                let chicharesult = res.results[i];
+                if (typeof chicharesult.photos !== 'undefined') {
+                  var lat1 = chicharesult.geometry.location.lat;
+                  var lon1 = chicharesult.geometry.location.lng;
+                  var lat2 = position.coords.latitude;
+                  var lon2 = position.coords.longitude;
+                  var unit = 'K'
+                  var radlat1 = Math.PI * lat1/180
+                  var radlat2 = Math.PI * lat2/180
+                  var theta = lon1-lon2
+                  var radtheta = Math.PI * theta/180
+                  var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                  dist = Math.acos(dist)
+                  dist = dist * 180/Math.PI
+                  dist = dist * 60 * 1.1515
+                  if (unit=="K") { dist = dist * 1.609344 }
+                  if (unit=="N") { dist = dist * 0.8684 }
+                  console.log("--------- DIST --------");
+                  console.log(dist);
+                  console.log("--------- DIST --------");
+                  let chicha = {
+                     id: i,
+                     name: chicharesult.name,
+                     adress: chicharesult.formatted_address,
+                     rating: chicharesult.rating,
+                     ref_photo: chicharesult.photos[0].photo_reference,
+                     latitude: chicharesult.geometry.location.lat,
+                     longitude: chicharesult.geometry.location.lng,
+                     dist,
+                   };
+                   chicharray.push(chicha)
+                   chicharray.sort(function(a, b) {
+                      return a.dist - b.dist;
+                    });
+                }
+                else {
+                  console.log("--------------- ERROR PHOTOS -----------------");
+                  console.log(chicharesult.name);
+                  console.log("--------------- ERROR PHOTOS -----------------");
+                }
+              }
+             this.setState({ chichas : chicharray })
+            })
             return;
-          })
+        })
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
+          city,
+          zipcode,
           error: null,
         });
-        fetch(`${CONFIG.API_BACK}/stores`)
-        .then(res => res.json())
-        .then(res => {
-          console.log("------------- res ---------------");
-          this.setState({stores : res.stores })
-          return;
-        })
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
+    }
+    else {
+      console.log("NO LOGGED CAN'T ACESS VIEW");
+    }
   }
 
   static navigationOptions = {
   tabBarIcon: ({ tintColor }) => (
-    <Icon name='shopping-cart' type='feather'/>
-  )
+    <Icon name='shopping-cart' type='feather' />
+  ),
 };
-render() {
-  const store = this.state.stores.map((item, index) => {
-    let adresse = item.adress.replace(', France','');
-    return(
-      <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate("chicha",{chicha:item})}>
-      <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${item.ref_photo}&key=${CONFIG.API_KEY}`}}/>
-        <View style={styles.caption}>
-          <View>
-              <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
-              <Text style={[{color:'#6c757d'},styles.captionText]}>{adresse}</Text>
+  render() {
+    const chicha = this.state.chichas.map((item, index) => {
+      let adresse = item.adress.replace(', France','');
+      return(
+        <TouchableOpacity key={item.id} style={styles.item}>
+        <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${item.ref_photo}&key=${CONFIG.API_KEY}`}}/>
+          <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',alignItems:'flex-start',paddingTop:10}}>
+            <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
+            <Text style={{fontSize:15}}>{item.rating}</Text>
           </View>
-            <Text style={styles.captionText}>{item.statut}</Text>
-        </View>
+          <Text style={[{color:'#6c757d'},styles.captionText]}>{adresse}</Text>
       </TouchableOpacity>
-    )
-  })
-  return (
-    <View style={{flex:1,backgroundColor:"#fff"}}>
-      <View style={styles.container}>
-        <View style={styles.searchSection}>
-          <TextInput style={{fontSize:17,width:"80%"}}
-            value={this.state.adress}/>
-          <Icon style={styles.positionIcon} name='navigation' type='feather' size={20}/>
-        </View>
-        <ScrollView style={styles.items}>
-          <View style={{flexDirection: 'column',alignItems:'center'}}>
-            {store}
+      )
+    })
+    return (
+      <View style={{flex:1,backgroundColor:"#fff"}}>
+        <View style={styles.container}>
+          <View style={styles.searchSection}>
+            <TextInput style={{fontSize:17,width:"80%"}}
+              value={this.state.adress} onSubmitEditing={()=> console.log('okkkkkkkkk')}/>
+            <Icon style={styles.positionIcon} name='navigation' type='feather' size={20}/>
           </View>
-        </ScrollView>
+          <ScrollView style={styles.items}>
+            <View style={{flexDirection: 'column',alignItems:'center'}}>
+              {chicha}
+            </View>
+          </ScrollView>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
+
+function mapStateToProps(state) {
+  return {
+    isLogged: state.isLogged
+  }
 }
-export default StoresScreen
+
+export default connect(mapStateToProps)(StoresScreen)
 
 const styles = StyleSheet.create({
   container: {
@@ -128,7 +190,7 @@ const styles = StyleSheet.create({
   },
   positionIcon: {
     marginRight:15,
-    backgroundColor:COLORS.BLUE
+    backgroundColor:'blue'
   },
   items:{
     paddingTop:20,
@@ -141,14 +203,14 @@ const styles = StyleSheet.create({
   image:{
     width:"100%",
     height:200,
-    backgroundColor:'blue',
+    backgroundColor:COLORS.BLUE,
   },
   caption:{
+    flex:1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   captionText:{
-    paddingTop:10,
     fontSize:15
   }
 });

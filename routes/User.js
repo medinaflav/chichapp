@@ -67,7 +67,7 @@ class UserScreen extends React.Component {
   }
   render() {
     return (
-      <View style={{flex:1}}>
+      <View style={{flex:1,backgroundColor:"#fff"}}>
       <View style={styles.container}>
         <View style={styles.userContainer}>
           <Text style={styles.user}>{this.state.username}</Text>
