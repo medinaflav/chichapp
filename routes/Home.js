@@ -30,13 +30,27 @@ class HomeScreen extends React.Component {
       latitude: null,
       longitude: null,
       adress: null,
+      city: null,
+      zipcode: null,
       error: null,
     };
   }
+
+  distance(lat1, lon1, lat2, lon2, unit) {
+  	var radlat1 = Math.PI * lat1/180
+  	var radlat2 = Math.PI * lat2/180
+  	var theta = lon1-lon2
+  	var radtheta = Math.PI * theta/180
+  	var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  	dist = Math.acos(dist)
+  	dist = dist * 180/Math.PI
+  	dist = dist * 60 * 1.1515
+  	if (unit=="K") { dist = dist * 1.609344 }
+  	if (unit=="N") { dist = dist * 0.8684 }
+  	return dist
+  }
+
   componentDidMount() {
-    console.log("----------------- HOME TOKEN --------------");
-    console.log(this.props.isLogged);
-    console.log("----------------- HOME TOKEN --------------");
     if (this.props.isLogged) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -49,27 +63,75 @@ class HomeScreen extends React.Component {
           .then(res => res.json())
           .then(res => {
             var adress = res.results[0].address_components;
-            var fullAdress = `${adress[0].long_name} ${adress[1].long_name}, ${adress[2].long_name} ${adress[adress.length - 1].long_name}`
+            var city = adress[2].long_name;
+            var zipcode = adress[adress.length - 1].long_name;
+            var fullAdress = `${adress[0].long_name} ${adress[1].long_name}, ${city} ${zipcode}`
             console.log("-------------- adresse --------------");
             console.log(fullAdress);
             this.setState({ adress: fullAdress })
+            let url = `${CONFIG.API_SEARCH}query=chicha+${city}+${zipcode}&location=${position.coords.latitude},${position.coords.longitude}&radius=10&key=${CONFIG.API_KEY}`;
+            console.log(url);
+            fetch(url)
+            .then(res => res.json())
+            .then(res => {
+              var chicharray = [];
+              for (var i = 0; i < res.results.length; i++) {
+                let chicharesult = res.results[i];
+                if (typeof chicharesult.photos !== 'undefined') {
+                  var lat1 = chicharesult.geometry.location.lat;
+                  var lon1 = chicharesult.geometry.location.lng;
+                  var lat2 = position.coords.latitude;
+                  var lon2 = position.coords.longitude;
+                  var unit = 'K'
+                  var radlat1 = Math.PI * lat1/180
+                  var radlat2 = Math.PI * lat2/180
+                  var theta = lon1-lon2
+                  var radtheta = Math.PI * theta/180
+                  var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                  dist = Math.acos(dist)
+                  dist = dist * 180/Math.PI
+                  dist = dist * 60 * 1.1515
+                  if (unit=="K") { dist = dist * 1.609344 }
+                  if (unit=="N") { dist = dist * 0.8684 }
+                  console.log("--------- DIST --------");
+                  console.log(dist);
+                  console.log("--------- DIST --------");
+                  let chicha = {
+                     id: i,
+                     name: chicharesult.name,
+                     adress: chicharesult.formatted_address,
+                     rating: chicharesult.rating,
+                     ref_photo: chicharesult.photos[0].photo_reference,
+                     latitude: chicharesult.geometry.location.lat,
+                     longitude: chicharesult.geometry.location.lng,
+                     dist,
+                   };
+                   chicharray.push(chicha)
+                   chicharray.sort(function(a, b) {
+                      return a.dist - b.dist;
+                    });
+                }
+                else {
+                  console.log("--------------- ERROR PHOTOS -----------------");
+                  console.log(chicharesult.name);
+                  console.log("--------------- ERROR PHOTOS -----------------");
+                }
+              }
+             this.setState({ chichas : chicharray })
+            })
             return;
-          })
+        })
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
+          city,
+          zipcode,
           error: null,
         });
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
-    fetch(`${CONFIG.API_BACK}/hookahs`)
-    .then(res => res.json())
-    .then(res => {
-      this.setState({ chichas : res.hookahs })
-      return;
-    })
     }
     else {
       console.log("NO LOGGED CAN'T ACESS VIEW");
@@ -93,7 +155,7 @@ class HomeScreen extends React.Component {
         <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${item.ref_photo}&key=${CONFIG.API_KEY}`}}/>
           <View style={styles.caption}>
             <View>
-                <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
+            <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
                 <Text style={[{color:'#6c757d'},styles.captionText]}>{adresse}</Text>
             </View>
             <View style={{flexDirection:'row',justifyContent:'flex-end',alignItems:'center'}}>
