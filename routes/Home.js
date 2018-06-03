@@ -15,7 +15,8 @@ import {
   Dimensions
 } from 'react-native';
 import { connect } from 'react-redux'
-import { Icon } from 'react-native-elements';
+import { Icon, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
+
 import { COLORS, CONFIG } from '../constants/index';
 
 const {height, width} = Dimensions.get('window');
@@ -74,6 +75,7 @@ class HomeScreen extends React.Component {
             fetch(url)
             .then(res => res.json())
             .then(res => {
+              console.log(res);
               var chicharray = [];
               for (var i = 0; i < res.results.length; i++) {
                 let chicharesult = res.results[i];
@@ -142,10 +144,6 @@ class HomeScreen extends React.Component {
   tabBarIcon: ({ tintColor }) => (
     <Icon name='home' type='feather' />
   ),
-  header: ({ goBack }) => ({
-    left: ( <Icon name={'chevron-left'} onPress={ () => { goBack() } }  /> ),
-    right: ( <Icon name={'chevron-right'} onPress={ () => { goBack() } }  /> ),
-  }),
 };
   render() {
     const chicha = this.state.chichas.map((item, index) => {
@@ -153,16 +151,12 @@ class HomeScreen extends React.Component {
       return(
         <TouchableOpacity key={item.id} style={styles.item}>
         <Image style={styles.image} source={{uri: `${CONFIG.API_IMAGE}${item.ref_photo}&key=${CONFIG.API_KEY}`}}/>
-          <View style={styles.caption}>
-            <View>
+          <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',alignItems:'flex-start',paddingTop:10}}>
             <Text style={[{fontWeight:'bold'},styles.captionText]}>{item.name}</Text>
-                <Text style={[{color:'#6c757d'},styles.captionText]}>{adresse}</Text>
-            </View>
-            <View style={{flexDirection:'row',justifyContent:'flex-end',alignItems:'center'}}>
-              <Text style={{fontSize:15}}>{item.rating}</Text>
-            </View>
+            <Text style={{fontSize:15}}>{item.rating}</Text>
           </View>
-        </TouchableOpacity>
+          <Text style={[{color:'#6c757d'},styles.captionText]}>{adresse}</Text>
+      </TouchableOpacity>
       )
     })
     return (
@@ -170,7 +164,7 @@ class HomeScreen extends React.Component {
         <View style={styles.container}>
           <View style={styles.searchSection}>
             <TextInput style={{fontSize:17,width:"80%"}}
-              value={this.state.adress}/>
+              value={this.state.adress} onSubmitEditing={()=> console.log('okkkkkkkkk')}/>
             <Icon style={styles.positionIcon} name='navigation' type='feather' size={20}/>
           </View>
           <ScrollView style={styles.items}>
@@ -226,11 +220,11 @@ const styles = StyleSheet.create({
     backgroundColor:COLORS.BLUE,
   },
   caption:{
+    flex:1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   captionText:{
-    paddingTop:10,
     fontSize:15
   }
 });
